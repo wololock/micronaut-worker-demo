@@ -1,0 +1,52 @@
+plugins {
+    id("groovy") 
+    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("io.micronaut.application") version "3.6.2"
+    id("io.micronaut.test-resources") version "3.6.0"
+}
+
+version = "0.1"
+group = "micronaut.worker.demo"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    annotationProcessor("io.micronaut:micronaut-http-validation")
+    implementation('com.agorapulse:micronaut-worker:1.2.2-micronaut-3.0')
+    implementation('com.agorapulse:micronaut-worker-queues-sqs-v1:1.2.2-micronaut-3.0')
+    implementation("io.micronaut:micronaut-http-client")
+    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("jakarta.annotation:jakarta.annotation-api")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    testImplementation("org.awaitility:awaitility:4.2.0")
+    testImplementation("org.testcontainers:spock")
+    testImplementation("org.codehaus.groovy:groovy-json")
+    testImplementation("org.testcontainers:testcontainers")
+    testImplementation('org.testcontainers:localstack')
+    implementation("io.micronaut:micronaut-validation")
+
+}
+
+
+application {
+    mainClass.set("micronaut.worker.demo.Application")
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("17")
+    targetCompatibility = JavaVersion.toVersion("17")
+}
+
+graalvmNative.toolchainDetection = false
+micronaut {
+    runtime("netty")
+    testRuntime("spock2")
+    processing {
+        incremental(true)
+        annotations("micronaut.worker.demo.*")
+    }
+}
+
+
+

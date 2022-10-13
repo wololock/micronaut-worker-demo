@@ -1,0 +1,17 @@
+micronaut:
+  application:
+    name: micronautWorkerDemo
+netty:
+  default:
+    allocator:
+      max-order: 3
+aws:
+  sqs:
+    queues:
+      micronaut-worker-queue:
+        auto-create-queue: true
+worker:
+  jobs:
+    sqs-consumer-job:
+      enabled: true
+
